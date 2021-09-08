@@ -1,0 +1,228 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# ### Importing the Packages
+
+# In[41]:
+
+
+import pandas as pd
+import numpy as np
+
+
+# ### Importing the data 
+
+# In[2]:
+
+
+raw_csv_data = pd.read_csv("Index2018.csv") 
+df_comp=raw_csv_data.copy() 
+
+
+# ### Lenght of the Time Period
+
+# In[3]:
+
+
+df_comp.describe()
+
+
+# In[4]:
+
+
+df_comp.head()
+
+
+# In[5]:
+
+
+df_comp.date.describe()
+
+
+# ### From Text to Date
+
+# In[6]:
+
+
+df_comp.date = pd.to_datetime(df_comp.date, dayfirst = True)
+
+
+# In[8]:
+
+
+df_comp.head()
+
+
+# In[9]:
+
+
+df_comp.date.describe()
+
+
+# ### Setting the Index
+
+# In[10]:
+
+
+df_comp.set_index("date")
+
+
+# In[11]:
+
+
+df_comp.set_index("date", inplace=True)
+
+
+# In[12]:
+
+
+df_comp.head()
+
+
+# In[13]:
+
+
+#df_comp.date.describe() #Expect to get an error message because we no longer have a "date" column since it is the index
+
+
+# ### Setting the Desired Frequency
+
+# In[14]:
+
+
+df_comp=df_comp.asfreq('d')
+
+
+# In[15]:
+
+
+df_comp
+
+
+# In[16]:
+
+
+df_comp=df_comp.asfreq('b')
+
+
+# In[17]:
+
+
+df_comp.head()
+
+
+# ### Handling Missing Values
+
+# In[18]:
+
+
+df_comp.isna()
+
+
+# In[19]:
+
+
+df_comp.isna().sum()
+
+
+# In[20]:
+
+
+df_comp
+
+
+# In[21]:
+
+
+df_comp.spx=df_comp.spx.fillna(method='ffill')
+
+
+# In[22]:
+
+
+df_comp.isna().sum()
+
+
+# In[23]:
+
+
+df_comp.ftse=df_comp.ftse.fillna(method='bfill')
+
+
+# In[24]:
+
+
+df_comp.dax=df_comp.dax.fillna(value = df_comp.dax.mean())
+
+
+# ### Simplifying the Dataset
+
+# In[25]:
+
+
+df_comp['market_value']=df_comp.spx
+
+
+# In[26]:
+
+
+df_comp.describe()
+
+
+# In[27]:
+
+
+del df_comp['spx']
+
+
+# In[28]:
+
+
+df_comp.describe()
+
+
+# In[ ]:
+
+
+del df_comp['dax']
+del df_comp['ftse']
+del df_comp['nikkei']
+
+
+# In[37]:
+
+
+df_comp.describe()
+
+
+# ### Splitting the Data
+
+# In[ ]:
+
+
+size = int(len(df_comp)*0.8)
+
+
+# In[ ]:
+
+
+df = df_comp.iloc[:size]
+
+
+# In[38]:
+
+
+df_test = df_comp.iloc[size:]
+
+
+# In[39]:
+
+
+df.tail()
+
+
+# In[40]:
+
+
+df_test.head()
+
