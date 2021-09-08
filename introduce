@@ -1,0 +1,108 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# ### Import the Packages
+
+# In[1]:
+
+
+import pandas as pd 
+import numpy as np
+#import matplotlib.pyplot as plt 
+#import seaborn as sns
+#sns.set()
+
+
+# ### Importing the Data
+
+# In[2]:
+
+
+raw_csv_data = pd.read_csv("Index2018.csv")
+
+
+# In[3]:
+
+
+df_comp = raw_csv_data.copy()
+
+
+# ### Examining the Data
+
+# In[4]:
+
+
+df_comp.head()
+
+
+# In[5]:
+
+
+df_comp
+
+
+# In[6]:
+
+
+df_comp.describe()
+
+
+# In[7]:
+
+
+df_comp.isna()
+
+
+# In[8]:
+
+
+df_comp.spx.isna().sum()
+
+
+# ### Plotting the Data
+
+# In[9]:
+
+
+import matplotlib.pyplot as plt
+
+
+# In[10]:
+
+
+df_comp.spx.plot(figsize=(20,5), title = "S&P500 Prices")
+plt.show()
+
+
+# In[11]:
+
+
+df_comp.ftse.plot(figsize=(20,5), title = "FTSE100 Prices")
+plt.show()
+
+
+# In[12]:
+
+
+df_comp.spx.plot(figsize=(20,5), title = "S&P500 Prices")
+df_comp.ftse.plot(figsize=(20,5), title = "FTSE100 Prices")
+plt.title("S&P v FTSE")
+plt.show()
+
+
+# ### The QQ Plot
+
+# In[13]:
+
+
+import scipy.stats
+import pylab
+
+
+# In[15]:
+
+
+scipy.stats.probplot(df_comp.spx, plot = pylab)
+plt.title("QQ Plot", size = 24)
+pylab.show()
+
